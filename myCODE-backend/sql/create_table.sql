@@ -17,7 +17,7 @@ create table if not exists user
     editTime     datetime     default CURRENT_TIMESTAMP not null comment 'user edit time',
     createTime   datetime     default CURRENT_TIMESTAMP not null comment 'create time',
     updateTime   datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment 'update time',
-    isDelete     tinyint      default 0                 not null comment 'is delete or not',
+    isDelete     tinyint      default 0                 not null comment 'is deleted or not',
     index idx_unionId (unionId)
 ) comment 'user' collate = utf8mb4_unicode_ci;
 
@@ -33,7 +33,7 @@ create table if not exists question_bank
     editTime    datetime default CURRENT_TIMESTAMP not null comment 'edit time',
     createTime  datetime default CURRENT_TIMESTAMP not null comment 'create time',
     updateTime  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment 'update time',
-    isDelete    tinyint  default 0                 not null comment 'is delete or not',
+    isDelete    tinyint  default 0                 not null comment 'is deleted or not',
     index idx_title (title)
 ) comment 'question_bank' collate = utf8mb4_unicode_ci;
 
@@ -50,7 +50,7 @@ create table if not exists question
     editTime   datetime default CURRENT_TIMESTAMP not null comment 'edit time',
     createTime datetime default CURRENT_TIMESTAMP not null comment 'create time',
     updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment 'update time',
-    isDelete   tinyint  default 0                 not null comment 'is delete or not',
+    isDelete   tinyint  default 0                 not null comment 'is deleted or not',
     index idx_title (title),
     index idx_userId (userId)
 ) comment 'question' collate = utf8mb4_unicode_ci;

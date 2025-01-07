@@ -1,6 +1,6 @@
-package ${packageName}.model.dto.${dataKey};
+package com.steven.myCODE.model.dto.questionBank;
 
-import ${packageName}.common.PageRequest;
+import com.steven.myCODE.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,14 +8,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 查询${dataName}请求
+ * 查询questionBank请求
  *
  *
  *
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ${upperDataKey}QueryRequest extends PageRequest implements Serializable {
+public class QuestionBankQueryRequest extends PageRequest implements Serializable {
 
     /**
      * id
@@ -38,14 +38,14 @@ public class ${upperDataKey}QueryRequest extends PageRequest implements Serializ
     private String title;
 
     /**
-     * 内容
+     * description
      */
-    private String content;
+    private String description;
 
     /**
-     * 标签列表
+     * picture
      */
-    private List<String> tags;
+    private String picture;
 
     /**
      * 创建用户 id
