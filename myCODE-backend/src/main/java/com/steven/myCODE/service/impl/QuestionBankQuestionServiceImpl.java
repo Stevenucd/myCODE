@@ -6,14 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.steven.myCODE.common.ErrorCode;
 import com.steven.myCODE.constant.CommonConstant;
+import com.steven.myCODE.exception.BusinessException;
 import com.steven.myCODE.exception.ThrowUtils;
 import com.steven.myCODE.mapper.QuestionBankQuestionMapper;
 import com.steven.myCODE.model.dto.questionBankQuestion.QuestionBankQuestionQueryRequest;
+import com.steven.myCODE.model.entity.Question;
+import com.steven.myCODE.model.entity.QuestionBank;
 import com.steven.myCODE.model.entity.QuestionBankQuestion;
 import com.steven.myCODE.model.entity.User;
 import com.steven.myCODE.model.vo.QuestionBankQuestionVO;
+import com.steven.myCODE.model.vo.QuestionBankVO;
 import com.steven.myCODE.model.vo.UserVO;
 import com.steven.myCODE.service.QuestionBankQuestionService;
+import com.steven.myCODE.service.QuestionBankService;
+import com.steven.myCODE.service.QuestionService;
 import com.steven.myCODE.service.UserService;
 import com.steven.myCODE.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +46,12 @@ public class QuestionBankQuestionServiceImpl extends ServiceImpl<QuestionBankQue
     @Resource
     private UserService userService;
 
+    @Resource
+    private QuestionService questionService;
+
+    @Resource
+    private QuestionBankService questionBankService;
+
     /**
      * 校验数据
      *
@@ -49,6 +61,19 @@ public class QuestionBankQuestionServiceImpl extends ServiceImpl<QuestionBankQue
     @Override
     public void validQuestionBankQuestion(QuestionBankQuestion questionBankQuestion, boolean add) {
         ThrowUtils.throwIf(questionBankQuestion == null, ErrorCode.PARAMS_ERROR);
+        // 题目和题库必须存在
+        Long questionId = questionBankQuestion.getQuestionId();
+        if(questionId != null){
+            Question question = questionService.getById(questionId);
+            ThrowUtils.throwIf(question == null, ErrorCode.NOT_FOUND_ERROR, "题目不存在");
+        }
+        Long questionBankId = questionBankQuestion.getQuestionBankId();
+        if(questionBankId != null){
+            QuestionBank questionBank = questionBankService.getById(questionBankId);
+            ThrowUtils.throwIf(questionBank == null, ErrorCode.NOT_FOUND_ERROR, "题库不存在");
+
+        }
+
 //        // 创建数据时，参数不能为空
 //        if (add) {
 //            // todo 补充校验规则

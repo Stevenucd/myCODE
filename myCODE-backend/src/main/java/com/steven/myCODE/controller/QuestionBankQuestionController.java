@@ -1,5 +1,7 @@
 package com.steven.myCODE.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.steven.myCODE.annotation.AuthCheck;
 import com.steven.myCODE.common.BaseResponse;
@@ -11,6 +13,7 @@ import com.steven.myCODE.exception.BusinessException;
 import com.steven.myCODE.exception.ThrowUtils;
 import com.steven.myCODE.model.dto.questionBankQuestion.QuestionBankQuestionAddRequest;
 import com.steven.myCODE.model.dto.questionBankQuestion.QuestionBankQuestionQueryRequest;
+import com.steven.myCODE.model.dto.questionBankQuestion.QuestionBankQuestionRemoveRequest;
 import com.steven.myCODE.model.dto.questionBankQuestion.QuestionBankQuestionUpdateRequest;
 import com.steven.myCODE.model.entity.QuestionBankQuestion;
 import com.steven.myCODE.model.entity.User;
@@ -200,6 +203,24 @@ public class QuestionBankQuestionController {
                 questionBankQuestionService.getQueryWrapper(questionBankQuestionQueryRequest));
         // 获取封装类
         return ResultUtils.success(questionBankQuestionService.getQuestionBankQuestionVOPage(questionBankQuestionPage, request));
+    }
+
+    /**
+     * 移除questionBankQuestion
+     *
+     * @param questionBankQuestionRemoveRequest
+     * @return
+     */
+    @PostMapping("/remove")
+    public BaseResponse<Boolean> removeQuestionBankQuestion(@RequestBody QuestionBankQuestionRemoveRequest questionBankQuestionRemoveRequest) {
+        ThrowUtils.throwIf(questionBankQuestionRemoveRequest == null, ErrorCode.PARAMS_ERROR);
+        Long questionBankId = questionBankQuestionRemoveRequest.getQuestionBankId();
+        Long questionId = questionBankQuestionRemoveRequest.getQuestionId();
+        LambdaQueryWrapper<QuestionBankQuestion> lambdaQueryWrapper = Wrappers.lambdaQuery(QuestionBankQuestion.class)
+                .eq(QuestionBankQuestion::getQuestionBankId, questionBankId)
+                .eq(QuestionBankQuestion::getQuestionId, questionId);
+        boolean result = questionBankQuestionService.remove(lambdaQueryWrapper);
+        return ResultUtils.success(result);
     }
 
     // endregion
